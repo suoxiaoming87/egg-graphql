@@ -38,4 +38,28 @@ describe('test/app/middleware.test.js', () => {
       },
     });
   });
+
+  it('should return framework 1', async () => {
+    const resp = await app.httpRequest()
+      .get('/graphql?query=query+getFramework($id:Int){framework(id:$id){name}}&variables={"id":1}')
+      .expect(200);
+    console.log('resp.body------>' + JSON.stringify(resp.body));
+    assert.deepEqual(resp.body.data, {
+      framework: {
+        name: 'framework1',
+      },
+    });
+  });
+
+  it('should return framework 2', async () => {
+    const resp = await app.httpRequest()
+      .get('/framework')
+      .expect(200);
+
+    assert.deepEqual(resp.body.data, {
+      framework: {
+        name: 'framework2',
+      },
+    });
+  });
 });
